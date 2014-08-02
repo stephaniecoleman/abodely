@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+<body>
+
+  <!---------- BASIC APARTMENT INFORMATION ---------->
+  <div class="page page-tasks ng-scope">
+    <ol class="breadcrumb">
+      <li><%= link_to "My Hunts", hunts_path %></a></li>
+      <li><%= link_to @apartment.hunt.title, hunt_path(@hunt.id) %></a></li>
+      <li class="active"><a href=""><%= @apartment.street %></a></li>
+    </ol>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span id="address"><%= @apartment.street %> <%= @apartment.unit %> <%= @apartment.city %> <%= @apartment.state %> <%= @apartment.zip %></span></strong></div>
+          <div class="panel-body">
+            <div class="media">
+              <div class="media-body">
+                <ul class="list-unstyled list-info">
+                  <li class="ng-binding">
+                    <span class="icon glyphicon glyphicon-paperclip"></span>
+                    <label>Link:</label>
+                    <%= @apartment.link %>
+                  </li>
+                  <li>
+                    <span class="icon glyphicon glyphicon-user"></span>
+                    <label>Contact:</label>
+                    <%= @apartment.contact %>
+                  </li>
+                  <li>
+                    <span class="icon glyphicon glyphicon-usd"></span>
+                    <label>Price:</label>
+                    <%= @apartment.price %>
+                  </li>
+                  <li>
+                    <span class="icon glyphicon glyphicon-calendar"></span>
+                    <label>Move In Date:</label>
+                    <%= @apartment.move_in_date %>
+                  </li>
+                  <li>
+                    <span class="icon glyphicon glyphicon-globe"></span>
+                    <label>Website:</label>
+                    www.site.com
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <section class="panel panel-default">
+            <div class="panel-body">
+              <div id="map_canvas"></div>
+            </div>
+          </section>
+          </div>
+        </div>
+      </div>
+  <!---------- MAP ---------->
+
+
+
+
+
+      <!---------- IMAGE GALLERY ---------->
+      <div class="col-md-7">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong><span class="glyphicon glyphicon-th"></span>
+              <span>Gallery:</span>
+              <div ng-controller="ModalDemoCtrl" class="addnewimg">
+                <script type="text/ng-template" id="inviteForm.html.erb">
+                <%= render 'details/form' %>
+                </script>
+                <a href="#" ng-click="open()">
+                  Add Image <i class="fa fa-plus"></i>
+                </a>
+              </div></strong>
+            </div>
+            <div class="panel-body">
+              <div class="media">
+                <div class="media-body">
+                  <ul class="bxslider">
+                    <% @apartment.details.each do |detail| %>
+                    <% if detail.image_url %>
+                    <li><%= image_tag detail.image_url(:gallery) %></li>
+                    <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+
+      <!---------- DETAILS ---------->
+      <div class="row">
+        <div class="col-md-12">
+          <section class="task-container ng-scope" data-ng-controller="taskCtrl">
+            <%= render 'details/form2' %>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <section class="panel panel-default">
+          <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Apartment Notes</strong></div>
+          <div class="panel-body">
+            <ul class="task-list list-unstyled">
+              <% @apartment.details.each do |detail| %>
+              <% if detail.content != "" %>
+              <li  class="ng-scope">
+<!------ --> <%= render_details detail %>
+              </li>
+              <% end%>
+              <%end%>
+            </ul>
+          </div>
+        </section>
+      </section>
+    </div>
+  <div class="divider"></div>
+
+
+      <!-- Google Map -->
+
+
+        </body>
+        </html>

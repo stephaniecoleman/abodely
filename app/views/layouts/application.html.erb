@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Abodely</title>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css"> -->
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <link rel="icon" href="/favicon.ico" />
+    <%= csrf_meta_tags %>
+  </head>
+  <body data-ng-app="app" id="app" data-custom-background data-off-canvas-nav>
+    <!--[if lt IE 9]>
+               <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+           <![endif]-->
+
+   <% if user_signed_in? %>
+     <div data-ng-controller="AppCtrl">
+         <section  id="header" class="top-header">
+            <%= render "shared/header" %>
+          </section>
+
+      <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
+
+      <aside  id="nav-container">
+          <%= render "shared/sidebar" %>
+      </aside>
+    </div>
+
+    <div class="view-container">
+      <section id="content" class="animate-fade-up page">
+        <%= yield %>
+      </section>
+    </div>
+    <% else %>
+
+    <div class="view-container">
+        <%= yield %>
+    </div>
+
+     <% end %>
+
+  </body>
+</html>
