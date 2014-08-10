@@ -18,7 +18,8 @@ gem 'figaro'
 gem 'easymarklet'
 gem 'nokogiri'
 gem 'mechanize'
-gem 'owlcarousel-rails'
+gem 'faker'
+gem 'rails_12factor'
 
 group :development, :test do
   gem "better_errors"
@@ -30,7 +31,6 @@ group :development, :test do
   gem "binding_of_caller"
   gem "letter_opener"
   gem "email_spec"
-  gem "faker"
   gem "factory_girl"
   gem "rack-livereload"
   gem "guard"

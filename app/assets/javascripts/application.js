@@ -12,11 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.step
-//= require jquery.select
-//= require jquery.bxslider
+//= require vendor
 //= require app
+//= require ui
+//= require jquery.bxslider
 //= require_tree .
+//= require_self
 
 $(document).ready(function(){
   $('input.con, input.pro').change(function(){
@@ -33,23 +34,15 @@ $(document).ready(function(){
       data: data,
       dataType: 'json'
     }).success(function(data){
-      // $('li[data-id="' + data.id + '"]').remove();
-      // var listItem = "<li data-id='"+ data.id + "'>" + data.content + "</li>"
-      // if (data.procon === "pro") {
-      //   $("ul.pro").append(listItem);
-      // }
-      // else {
-      //   $("ul.con").append(listItem);
-      // }
-       if (data.procon === "pro") {
-        form.parents(".page-tasks .task-list .view").removeClass("con-label");
-        form.parents(".page-tasks .task-list .view").addClass("pro-label");
-        }
-      else {
-        form.parents(".page-tasks .task-list .view").removeClass("pro-label");
-        form.parents(".page-tasks .task-list .view").addClass("con-label");
-      }
-    });
+if (data.procon === "pro") {
+  form.parents(".page-tasks .task-list .view").removeClass("con-label");
+  form.parents(".page-tasks .task-list .view").addClass("pro-label");
+}
+else {
+  form.parents(".page-tasks .task-list .view").removeClass("pro-label");
+  form.parents(".page-tasks .task-list .view").addClass("con-label");
+}
+});
   });
 
   $('.addnewapt').click(function(){
@@ -85,68 +78,68 @@ $("a span.newhunt").click(function(){
   $("div .newhuntcollapse").addClass("in").animate({height: "auto"},1500);
 });
 
-  $('.bxslider').bxSlider({
-    minSlides: 1,
-    maxSlides: 1,
-    slideWidth: 500,
-    slideMargin: 5,
-    adaptiveHeight: true,
-    mode: 'fade'
+$('.bxslider').bxSlider({
+  minSlides: 1,
+  maxSlides: 1,
+  slideWidth: 500,
+  slideMargin: 5,
+  adaptiveHeight: true,
+  mode: 'fade'
+});
+
+var geocoder;
+var map;
+var markersArray = [];
+var bounds;
+var address = $('#address').text();
+var locationsArray = [];
+var infowindow = new google.maps.InfoWindow();
+
+function initialize() {
+  address = $('#address').text();
+  geocoder = new google.maps.Geocoder();
+  bounds = new google.maps.LatLngBounds ();
+
+  var myOptions = {
+    maxZoom: 15,
+
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    navigationControlOptions: {
+      style: google.maps.NavigationControlStyle.SMALL
+    }
+  };
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+  codeAddresses(address);
+}
+
+function codeAddresses(address){
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      marker = new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(address);
+        infowindow.open(map, this);
+      });
+
+      bounds.extend(results[0].geometry.location);
+
+      markersArray.push(marker);
+    }
+
+    else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+
+    map.fitBounds(bounds);
   });
+}
 
-  var geocoder;
-  var map;
-  var markersArray = [];
-  var bounds;
-  var address = $('#address').text();
-  var locationsArray = [];
-  var infowindow = new google.maps.InfoWindow();
-
-  function initialize() {
-    address = $('#address').text();
-    geocoder = new google.maps.Geocoder();
-    bounds = new google.maps.LatLngBounds ();
-
-    var myOptions = {
-      maxZoom: 15,
-
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      navigationControlOptions: {
-        style: google.maps.NavigationControlStyle.SMALL
-      }
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-    codeAddresses(address);
-  }
-
-  function codeAddresses(address){
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(address);
-          infowindow.open(map, this);
-        });
-
-        bounds.extend(results[0].geometry.location);
-
-        markersArray.push(marker);
-      }
-
-      else {
-        alert("Geocode was not successful for the following reason: " + status);
-      }
-
-      map.fitBounds(bounds);
-    });
-  }
-
-  $(function() {
-    google.maps.event.addDomListener(window, 'load', initialize);
-  });
+$(function() {
+  google.maps.event.addDomListener(window, 'load', initialize);
+});
 });
