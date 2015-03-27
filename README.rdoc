@@ -1,28 +1,11 @@
-== README
+## Abodely
+A Rails app to help a group organize an apartment search using crowdsourced content
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Contributions
++ Created a bookmarklet that sends information from Craigslist posts to Abodely using Nokogiri and JavaScript 
++ Created an authentication system with Devise
++ Allowed users to add friends to an apartment hunt by reworking Devise-Invitable and ActionMailer
++ Utilized JavaScript, JQuery, Angular, and Bootstrap on the front-end to provide an awesome UI and UX
++ Managed file uploads with the CarrierWave gem
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
++ Original repository can be found [here](https://github.com/jlieb10/abodely).
